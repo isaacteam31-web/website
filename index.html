@@ -632,7 +632,7 @@ const I18N = {
     section_products_title:'تشكيلتنا', section_products_sub:'هواتف وإكسسوارات مختارة بعناية',
     tabs_all:'الكل', tabs_phones:'الهواتف', tabs_accessories:'الإكسسوارات',
     search_placeholder:'ابحث عن منتج...',
-    add_to_cart:'أضف إلى السلة', quantity_label:'الكمية',
+    add_to_cart:'أضف إلى السلة', order_now:'اطلب الآن مباشرة', quantity_label:'الكمية',
     empty_products:'لا توجد منتجات مطابقة لبحثك حاليًا',
     cat_phones:'هاتف', cat_accessories:'إكسسوار',
     cart_title:'سلتك', cart_empty:'سلتك فارغة حاليًا', cart_total:'المجموع', checkout_btn:'إتمام الطلب', remove_label:'إزالة',
@@ -655,6 +655,9 @@ const I18N = {
     th_date:'التاريخ', th_customer:'الزبون', th_phone:'الهاتف', th_wilaya:'الولاية', th_total:'المجموع', th_status:'الحالة', th_product:'المنتج', th_category:'الفئة', th_price:'السعر', th_tags:'الوسوم',
     admin_products_title:'المنتجات', admin_products_sub:'أضف منتجاتك وعدّل تفاصيلها وصورها',
     new_product_btn:'منتج جديد', no_products_row:'لا توجد منتجات، أضف أول منتج الآن',
+    subtab_view:'عرض المنتجات', subtab_add:'إضافة منتج', subtab_edit:'تعديل منتج', subtab_delete:'حذف منتج',
+    choose_product_edit:'اختر منتجًا لتعديله من القائمة', choose_product_delete:'اختر منتجًا لحذفه من القائمة',
+    open_edit:'تعديل', delete_confirm_btn:'حذف نهائي',
     form_title_new:'إضافة منتج جديد', form_title_edit:'تعديل المنتج',
     form_name_ar:'اسم المنتج (عربي) *', form_name_en:'اسم المنتج (إنجليزي) *',
     form_price:'السعر (دج) *', form_category:'الفئة *',
@@ -676,7 +679,14 @@ const I18N = {
     settings_pw_old:'كلمة السر الحالية', settings_pw_new:'كلمة السر الجديدة', settings_pw_change:'تغيير كلمة السر',
     settings_pw_note:'ملاحظة: هذه الحماية أساسية لتنظيم الوصول لغرفة الإدارة فقط وليست تشفيرًا أمنيًا متقدمًا.',
     toast_pw_wrong:'كلمة السر الحالية غير صحيحة', toast_pw_short:'كلمة السر الجديدة قصيرة جدًا', toast_pw_changed:'تم تغيير كلمة السر بنجاح',
-    toast_added_cart:'تمت إضافة المنتج إلى السلة'
+    toast_added_cart:'تمت إضافة المنتج إلى السلة',
+    settings_cloudinary_title:'ربط الصور بـ Cloudinary',
+    settings_cloud_name:'Cloud Name', settings_upload_preset:'Upload Preset (Unsigned)',
+    settings_cloudinary_note:'أنشئ حسابًا مجانيًا على Cloudinary (25 جيغا مجانًا)، ثم من الإعدادات أنشئ Upload Preset من نوع Unsigned، وضع الاسمين هنا. بعدها ستُرفع صور المنتجات مباشرة إلى Cloudinary بدل تخزينها في الموقع.',
+    settings_cloudinary_save:'حفظ إعدادات الرفع',
+    toast_cloudinary_saved:'تم حفظ إعدادات Cloudinary',
+    toast_cloudinary_missing:'يرجى إعداد Cloud Name وUpload Preset من الإعدادات أولًا',
+    toast_uploading:'جاري رفع الصور...', toast_upload_done:'تم رفع الصور بنجاح', toast_upload_failed:'فشل رفع إحدى الصور، تحقق من إعدادات Cloudinary'
   },
   en:{
     tagline_default:'Genuine phones & accessories',
@@ -689,7 +699,7 @@ const I18N = {
     section_products_title:'Our collection', section_products_sub:'Carefully selected phones and accessories',
     tabs_all:'All', tabs_phones:'Phones', tabs_accessories:'Accessories',
     search_placeholder:'Search for a product...',
-    add_to_cart:'Add to cart', quantity_label:'Quantity',
+    add_to_cart:'Add to cart', order_now:'Order now directly', quantity_label:'Quantity',
     empty_products:'No products match your search right now',
     cat_phones:'Phone', cat_accessories:'Accessory',
     cart_title:'Your cart', cart_empty:'Your cart is empty', cart_total:'Total', checkout_btn:'Checkout', remove_label:'Remove',
@@ -712,6 +722,9 @@ const I18N = {
     th_date:'Date', th_customer:'Customer', th_phone:'Phone', th_wilaya:'Wilaya', th_total:'Total', th_status:'Status', th_product:'Product', th_category:'Category', th_price:'Price', th_tags:'Tags',
     admin_products_title:'Products', admin_products_sub:'Add your products and edit their details and photos',
     new_product_btn:'New product', no_products_row:'No products yet — add your first one now',
+    subtab_view:'View products', subtab_add:'Add product', subtab_edit:'Edit product', subtab_delete:'Delete product',
+    choose_product_edit:'Choose a product from the list to edit', choose_product_delete:'Choose a product from the list to delete',
+    open_edit:'Edit', delete_confirm_btn:'Delete permanently',
     form_title_new:'Add a new product', form_title_edit:'Edit product',
     form_name_ar:'Product name (Arabic) *', form_name_en:'Product name (English) *',
     form_price:'Price (DZD) *', form_category:'Category *',
@@ -733,7 +746,14 @@ const I18N = {
     settings_pw_old:'Current password', settings_pw_new:'New password', settings_pw_change:'Change password',
     settings_pw_note:'Note: this is basic access control for the admin room only, not advanced security encryption.',
     toast_pw_wrong:'Current password is incorrect', toast_pw_short:'New password is too short', toast_pw_changed:'Password changed successfully',
-    toast_added_cart:'Product added to cart'
+    toast_added_cart:'Product added to cart',
+    settings_cloudinary_title:'Connect image uploads to Cloudinary',
+    settings_cloud_name:'Cloud Name', settings_upload_preset:'Upload Preset (Unsigned)',
+    settings_cloudinary_note:'Create a free Cloudinary account (25GB free), then create an Unsigned Upload Preset from its settings, and enter both values here. Product photos will then upload directly to Cloudinary instead of being stored on the site.',
+    settings_cloudinary_save:'Save upload settings',
+    toast_cloudinary_saved:'Cloudinary settings saved',
+    toast_cloudinary_missing:'Please set the Cloud Name and Upload Preset in Settings first',
+    toast_uploading:'Uploading images...', toast_upload_done:'Images uploaded successfully', toast_upload_failed:'One of the images failed to upload — check your Cloudinary settings'
   }
 };
 let currentLang='ar';
@@ -781,13 +801,15 @@ function defaultSettings(){
   return {
     tagline:{ar:'هواتف وإكسسوارات أصلية', en:'Genuine phones & accessories'},
     lead:{ar:'أصلية، بضمان، وبأسعار واضحة. اختر المنتج، أرسل طلبك، ونتكفل بالباقي حتى باب بيتك.', en:'Genuine, warrantied, clearly priced. Pick a product, place your order, and we handle the rest — straight to your door.'},
-    phone:'0663224560', adminPassword:'1234'
+    phone:'0663224560', adminPassword:'1234',
+    cloudName:'', uploadPreset:''
   };
 }
 
 /* ============ State ============ */
 let PRODUCTS=[], ORDERS=[], SETTINGS=defaultSettings();
 let cart=[]; // {id, qty}
+let checkoutOverrideItems=null; // when set, checkout uses this single-item list instead of the cart (direct "order now" from a product)
 let currentCat='all', searchTerm='';
 let activeProduct=null, activeImgIndex=0;
 let adminAuthed=false;
@@ -932,7 +954,11 @@ function renderProductModal(){
           <button id="pQtyPlus">+</button>
         </div>
       </div>
-      <button class="btn btn-primary btn-block" id="pAddToCartBtn">
+      <button class="btn btn-primary btn-block" id="pOrderNowBtn" style="margin-bottom:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+        ${t('order_now')}
+      </button>
+      <button class="btn btn-ghost btn-block" id="pAddToCartBtn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
         ${t('add_to_cart')}
       </button>
@@ -943,6 +969,7 @@ function renderProductModal(){
   document.getElementById('pQtyMinus').addEventListener('click',()=>{ qty=Math.max(1,qty-1); document.getElementById('pQtyVal').textContent=qty; });
   document.getElementById('pQtyPlus').addEventListener('click',()=>{ qty++; document.getElementById('pQtyVal').textContent=qty; });
   document.getElementById('pAddToCartBtn').addEventListener('click',()=>{ addToCart(p.id, qty); bounceCart(); toast(t('toast_added_cart'),'ok'); closeProductModal(); });
+  document.getElementById('pOrderNowBtn').addEventListener('click',()=>{ openDirectOrder(p.id, qty); });
 }
 document.getElementById('closeProductModal').addEventListener('click', closeProductModal);
 document.getElementById('productOverlay').addEventListener('click', (e)=>{ if(e.target.id==='productOverlay') closeProductModal(); });
@@ -968,7 +995,8 @@ function bounceCart(){
   fab.style.transition='.35s cubic-bezier(.34,1.56,.64,1)'; fab.style.transform='scale(1.15)';
   setTimeout(()=>{ fab.style.transform='scale(1)'; },250);
 }
-function cartTotal(){ return cart.reduce((sum,c)=>{ const p=PRODUCTS.find(x=>x.id===c.id); return sum + (p?p.price*c.qty:0); },0); }
+function cartTotal(){ return computeItemsTotal(checkoutOverrideItems || cart); }
+function computeItemsTotal(items){ return items.reduce((sum,c)=>{ const p=PRODUCTS.find(x=>x.id===c.id); return sum + (p?p.price*c.qty:0); },0); }
 
 function openCart(){
   renderCartDrawer();
@@ -978,6 +1006,14 @@ function openCart(){
 function closeCart(){
   document.getElementById('cartOverlay').classList.remove('show');
   document.getElementById('cartDrawer').classList.remove('open');
+  checkoutOverrideItems=null;
+}
+function openDirectOrder(productId, qty){
+  checkoutOverrideItems=[{id:productId, qty}];
+  closeProductModal();
+  document.getElementById('cartOverlay').classList.add('show');
+  document.getElementById('cartDrawer').classList.add('open');
+  renderCheckoutForm();
 }
 [document.getElementById('openCartBtn'), document.getElementById('cartFab')].forEach(b=>b.addEventListener('click', openCart));
 document.getElementById('cartOverlay').addEventListener('click', closeCart);
@@ -1027,6 +1063,7 @@ function renderCartDrawer(){
 
 function renderCheckoutForm(){
   const wrap=document.getElementById('cartDrawerContent');
+  const items = checkoutOverrideItems || cart;
   wrap.innerHTML=`
     <div class="cart-head"><h3>${t('checkout_title')}</h3><button class="icon-btn" id="cartCloseX2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
     <form class="checkout-form" id="checkoutForm">
@@ -1037,13 +1074,14 @@ function renderCheckoutForm(){
       </div>
       <div class="form-row"><label>${t('checkout_address')}</label><textarea required id="ckAddress" rows="2" placeholder="${t('checkout_address_ph')}"></textarea></div>
       <div class="form-row"><label>${t('checkout_note')}</label><textarea id="ckNote" rows="2" placeholder="${t('checkout_note_ph')}"></textarea></div>
-      <div class="cart-total-row" style="margin-top:6px;"><span>${t('checkout_grand_total')}</span><b>${money(cartTotal())}</b></div>
+      <div class="cart-total-row" style="margin-top:6px;"><span>${t('checkout_grand_total')}</span><b>${money(computeItemsTotal(items))}</b></div>
       <button type="submit" class="btn btn-primary btn-block">${t('checkout_confirm')}</button>
-      <button type="button" class="btn btn-ghost btn-block" id="backToCartBtn">${t('checkout_back')}</button>
+      ${checkoutOverrideItems ? '' : `<button type="button" class="btn btn-ghost btn-block" id="backToCartBtn">${t('checkout_back')}</button>`}
     </form>
   `;
   document.getElementById('cartCloseX2').addEventListener('click', closeCart);
-  document.getElementById('backToCartBtn').addEventListener('click', renderCartDrawer);
+  const backBtn=document.getElementById('backToCartBtn');
+  if(backBtn) backBtn.addEventListener('click', renderCartDrawer);
   document.getElementById('checkoutForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
     const order={
@@ -1054,13 +1092,13 @@ function renderCheckoutForm(){
       wilaya:document.getElementById('ckWilaya').value.trim(),
       address:document.getElementById('ckAddress').value.trim(),
       note:document.getElementById('ckNote').value.trim(),
-      items:cart.map(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); return {productId:c.id, name:p?pName(p):'—', price:p?p.price:0, qty:c.qty}; }),
-      total:cartTotal(),
+      items:items.map(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); return {productId:c.id, name:p?pName(p):'—', price:p?p.price:0, qty:c.qty}; }),
+      total:computeItemsTotal(items),
       status:t('status_new')
     };
     ORDERS.unshift(order);
     await sSet(K_ORDERS, ORDERS);
-    cart=[]; updateCartBadge();
+    if(checkoutOverrideItems){ checkoutOverrideItems=null; } else { cart=[]; updateCartBadge(); }
     renderSuccessView();
   });
 }
@@ -1168,48 +1206,100 @@ function statusPill(s){
 }
 
 /* ============ Admin: products ============ */
+let productsSubTab='view';
 function renderAdminProducts(){
   const el=document.getElementById('panel-products');
   el.innerHTML=`
     <div class="admin-top">
-      <div class="admin-top-row">
-        <div><h2>${t('admin_products_title')}</h2><p class="admin-top-sub">${t('admin_products_sub')}</p></div>
-        <button class="btn btn-primary" id="newProductBtn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          ${t('new_product_btn')}
-        </button>
-      </div>
+      <h2>${t('admin_products_title')}</h2><p class="admin-top-sub">${t('admin_products_sub')}</p>
     </div>
-    <div id="productFormWrap"></div>
-    <div class="admin-table-wrap">
-      <table>
-        <thead><tr><th>${t('th_product')}</th><th>${t('th_category')}</th><th>${t('th_price')}</th><th>${t('th_tags')}</th><th></th></tr></thead>
-        <tbody id="adminProductsTbody"></tbody>
-      </table>
+    <div class="tabs" style="display:inline-flex; margin-bottom:24px;">
+      <button class="tab-btn" data-subtab="view">${t('subtab_view')}</button>
+      <button class="tab-btn" data-subtab="add">${t('subtab_add')}</button>
+      <button class="tab-btn" data-subtab="edit">${t('subtab_edit')}</button>
+      <button class="tab-btn" data-subtab="delete">${t('subtab_delete')}</button>
     </div>
+    <div id="productsSubtabContent"></div>
   `;
-  document.getElementById('newProductBtn').addEventListener('click', ()=>openProductForm(null));
-  const tbody=document.getElementById('adminProductsTbody');
-  tbody.innerHTML = PRODUCTS.map(p=>`
-    <tr>
-      <td><div class="td-name-cell"><img class="prod-thumb" src="${(p.images&&p.images[0])||''}"><span>${escapeHtml(pName(p))}</span></div></td>
-      <td>${catLabel(p.category)}</td>
-      <td>${money(p.price)}</td>
-      <td>${(p.tags||[]).join('، ')}</td>
-      <td><div class="row-actions">
-        <button class="mini-btn" data-edit="${p.id}" title="edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
-        <button class="mini-btn" data-del="${p.id}" title="delete"><svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path></svg></button>
-      </div></td>
-    </tr>
-  `).join('') || `<tr><td colspan="5" style="text-align:center; color:var(--text-dim); padding:30px;">${t('no_products_row')}</td></tr>`;
-  tbody.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openProductForm(b.dataset.edit)));
-  tbody.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', async ()=>{
-    if(!confirm(t('confirm_delete_product'))) return;
-    PRODUCTS=PRODUCTS.filter(p=>p.id!==b.dataset.del);
-    await sSet(K_PRODUCTS, PRODUCTS);
-    renderAdminProducts(); renderProducts(); renderDashboard();
-    toast(t('toast_deleted_product'),'ok');
-  }));
+  el.querySelectorAll('[data-subtab]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.subtab===productsSubTab);
+    b.addEventListener('click', ()=>{ productsSubTab=b.dataset.subtab; renderAdminProducts(); });
+  });
+  renderProductsSubtab();
+}
+function renderProductsSubtab(){
+  const wrap=document.getElementById('productsSubtabContent');
+  if(productsSubTab==='view'){
+    wrap.innerHTML=`
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>${t('th_product')}</th><th>${t('th_category')}</th><th>${t('th_price')}</th><th>${t('th_tags')}</th></tr></thead>
+          <tbody>
+            ${PRODUCTS.map(p=>`
+              <tr>
+                <td><div class="td-name-cell"><img class="prod-thumb" src="${(p.images&&p.images[0])||''}"><span>${escapeHtml(pName(p))}</span></div></td>
+                <td>${catLabel(p.category)}</td>
+                <td>${money(p.price)}</td>
+                <td>${(p.tags||[]).join('، ')}</td>
+              </tr>
+            `).join('') || `<tr><td colspan="4" style="text-align:center; color:var(--text-dim); padding:30px;">${t('no_products_row')}</td></tr>`}
+          </tbody>
+        </table>
+      </div>`;
+  } else if(productsSubTab==='add'){
+    wrap.innerHTML=`<div id="productFormWrap"></div>`;
+    openProductForm(null);
+  } else if(productsSubTab==='edit'){
+    wrap.innerHTML=`
+      <div class="admin-table-wrap" style="margin-bottom:24px;">
+        <table>
+          <thead><tr><th>${t('th_product')}</th><th>${t('th_category')}</th><th>${t('th_price')}</th><th></th></tr></thead>
+          <tbody>
+            ${PRODUCTS.map(p=>`
+              <tr>
+                <td><div class="td-name-cell"><img class="prod-thumb" src="${(p.images&&p.images[0])||''}"><span>${escapeHtml(pName(p))}</span></div></td>
+                <td>${catLabel(p.category)}</td>
+                <td>${money(p.price)}</td>
+                <td><button class="btn btn-ghost" style="padding:8px 16px; font-size:13px;" data-editrow="${p.id}">${t('open_edit')}</button></td>
+              </tr>
+            `).join('') || `<tr><td colspan="4" style="text-align:center; color:var(--text-dim); padding:30px;">${t('no_products_row')}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+      <p class="small-muted" id="editHint" style="margin-bottom:14px;">${PRODUCTS.length?t('choose_product_edit'):''}</p>
+      <div id="productFormWrap"></div>
+    `;
+    wrap.querySelectorAll('[data-editrow]').forEach(b=>b.addEventListener('click',()=>{
+      const hint=document.getElementById('editHint'); if(hint) hint.textContent='';
+      openProductForm(b.dataset.editrow);
+    }));
+  } else if(productsSubTab==='delete'){
+    wrap.innerHTML=`
+      <p class="small-muted" style="margin-bottom:14px;">${t('choose_product_delete')}</p>
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>${t('th_product')}</th><th>${t('th_category')}</th><th>${t('th_price')}</th><th></th></tr></thead>
+          <tbody id="deleteProductsTbody">
+            ${PRODUCTS.map(p=>`
+              <tr>
+                <td><div class="td-name-cell"><img class="prod-thumb" src="${(p.images&&p.images[0])||''}"><span>${escapeHtml(pName(p))}</span></div></td>
+                <td>${catLabel(p.category)}</td>
+                <td>${money(p.price)}</td>
+                <td><button class="mini-btn" data-del="${p.id}" title="delete"><svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path></svg></button></td>
+              </tr>
+            `).join('') || `<tr><td colspan="4" style="text-align:center; color:var(--text-dim); padding:30px;">${t('no_products_row')}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    `;
+    wrap.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', async ()=>{
+      if(!confirm(t('confirm_delete_product'))) return;
+      PRODUCTS=PRODUCTS.filter(p=>p.id!==b.dataset.del);
+      await sSet(K_PRODUCTS, PRODUCTS);
+      renderProductsSubtab(); renderProducts(); renderDashboard();
+      toast(t('toast_deleted_product'),'ok');
+    }));
+  }
 }
 function openProductForm(id){
   editingProductId=id;
@@ -1253,7 +1343,10 @@ function openProductForm(id){
   `;
   renderImageThumbs();
   document.getElementById('fImgInput').addEventListener('change', handleImageFiles);
-  document.getElementById('cancelProductBtn').addEventListener('click', ()=>{ wrap.innerHTML=''; });
+  document.getElementById('cancelProductBtn').addEventListener('click', ()=>{
+    if(productsSubTab==='add'){ productsSubTab='view'; renderAdminProducts(); }
+    else { wrap.innerHTML=''; }
+  });
   document.getElementById('saveProductBtn').addEventListener('click', saveProduct);
   wrap.scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -1264,27 +1357,39 @@ function renderImageThumbs(){
   row.querySelectorAll('[data-rmimg]').forEach(b=>b.addEventListener('click',()=>{ tempImages.splice(+b.dataset.rmimg,1); renderImageThumbs(); }));
   document.getElementById('addImgBtn').addEventListener('click', ()=>document.getElementById('fImgInput').click());
 }
-function handleImageFiles(e){
+async function handleImageFiles(e){
   const files=Array.from(e.target.files||[]);
-  let remaining=files.length;
-  files.forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=(ev)=>{
-      const img=new Image();
-      img.onload=()=>{
-        const maxDim=900;
-        let w=img.width, h=img.height;
-        if(w>h && w>maxDim){ h=Math.round(h*maxDim/w); w=maxDim; } else if(h>maxDim){ w=Math.round(w*maxDim/h); h=maxDim; }
-        const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
-        const ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
-        tempImages.push(canvas.toDataURL('image/jpeg',0.72));
-        remaining--; if(remaining<=0){ renderImageThumbs(); }
-      };
-      img.src=ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
+  if(!files.length) return;
+  if(!SETTINGS.cloudName || !SETTINGS.uploadPreset){
+    toast(t('toast_cloudinary_missing'),'err');
+    e.target.value='';
+    return;
+  }
+  toast(t('toast_uploading'),'ok');
+  let failed=false;
+  for(const file of files){
+    try{
+      const url = await uploadToCloudinary(file);
+      tempImages.push(url);
+      renderImageThumbs();
+    }catch(err){
+      console.error('Cloudinary upload error', err);
+      failed=true;
+    }
+  }
+  if(failed) toast(t('toast_upload_failed'),'err'); else toast(t('toast_upload_done'),'ok');
   e.target.value='';
+}
+async function uploadToCloudinary(file){
+  const endpoint = `https://api.cloudinary.com/v1_1/${encodeURIComponent(SETTINGS.cloudName)}/image/upload`;
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', SETTINGS.uploadPreset);
+  const res = await fetch(endpoint, {method:'POST', body:fd});
+  if(!res.ok){ throw new Error('Cloudinary upload failed with status '+res.status); }
+  const data = await res.json();
+  if(!data.secure_url){ throw new Error('Cloudinary response missing secure_url'); }
+  return data.secure_url;
 }
 function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
 async function saveProduct(){
@@ -1304,7 +1409,7 @@ async function saveProduct(){
     PRODUCTS.push({id:'p_'+Date.now(), name, price, category, description, tags, images:tempImages});
   }
   await sSet(K_PRODUCTS, PRODUCTS);
-  document.getElementById('productFormWrap').innerHTML='';
+  productsSubTab='view';
   renderAdminProducts(); renderProducts(); renderDashboard();
   toast(t('toast_saved_product'),'ok');
 }
@@ -1385,8 +1490,23 @@ function renderAdminSettings(){
         <button class="btn btn-ghost" id="changePwBtn">${t('settings_pw_change')}</button>
         <p class="small-muted" style="margin-top:16px;">${t('settings_pw_note')}</p>
       </div>
+      <div class="admin-form" style="grid-column:1 / -1;">
+        <h4>${t('settings_cloudinary_title')}</h4>
+        <p class="small-muted" style="margin-bottom:16px;">${t('settings_cloudinary_note')}</p>
+        <div class="field-grid">
+          <div class="form-row"><label>${t('settings_cloud_name')}</label><input id="sCloudName" value="${escapeAttr(SETTINGS.cloudName||'')}" placeholder="my-cloud-name"></div>
+          <div class="form-row"><label>${t('settings_upload_preset')}</label><input id="sUploadPreset" value="${escapeAttr(SETTINGS.uploadPreset||'')}" placeholder="my-preset"></div>
+        </div>
+        <button class="btn btn-primary" id="saveCloudinaryBtn">${t('settings_cloudinary_save')}</button>
+      </div>
     </div>
   `;
+  document.getElementById('saveCloudinaryBtn').addEventListener('click', async ()=>{
+    SETTINGS.cloudName=document.getElementById('sCloudName').value.trim();
+    SETTINGS.uploadPreset=document.getElementById('sUploadPreset').value.trim();
+    await sSet(K_SETTINGS, SETTINGS);
+    toast(t('toast_cloudinary_saved'),'ok');
+  });
   document.getElementById('saveSettingsBtn').addEventListener('click', async ()=>{
     SETTINGS.tagline={ar:document.getElementById('sTaglineAr').value.trim(), en:document.getElementById('sTaglineEn').value.trim()};
     SETTINGS.lead={ar:document.getElementById('sLeadAr').value.trim(), en:document.getElementById('sLeadEn').value.trim()};
