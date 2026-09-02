@@ -1478,24 +1478,33 @@ async function saveProduct(){
 }
 
 /* ============ Admin: orders ============ */
+function orderItemsSummary(order){
+  const items=Array.isArray(order.items) ? order.items : [];
+  if(!items.length) return '—';
+  return items
+    .map(item=>`${escapeHtml(item.name||'منتج')} × ${Number(item.qty||1)}`)
+    .join('<br>');
+}
+
 function renderAdminOrders(){
   const el=document.getElementById('panel-orders');
   el.innerHTML=`
     <div class="admin-top"><h2>الطلبات (${ORDERS.length})</h2></div>
     <div class="admin-table-wrap">
       <table>
-        <thead><tr><th></th><th>التاريخ</th><th>الزبون</th><th>الهاتف</th><th>الولاية</th><th>المجموع</th><th>الحالة</th><th></th></tr></thead>
+        <thead><tr><th></th><th>التاريخ</th><th>الزبون</th><th>المنتج</th><th>الهاتف</th><th>الولاية</th><th>المجموع</th><th>الحالة</th><th></th></tr></thead>
         <tbody id="adminOrdersTbody"></tbody>
       </table>
     </div>
   `;
   const tbody=document.getElementById('adminOrdersTbody');
-  if(!ORDERS.length){ tbody.innerHTML=`<tr><td colspan="8" style="text-align:center; color:var(--text-dim); padding:30px;">لا توجد طلبات حتى الآن</td></tr>`; return; }
+  if(!ORDERS.length){ tbody.innerHTML=`<tr><td colspan="9" style="text-align:center; color:var(--text-dim); padding:30px;">لا توجد طلبات حتى الآن</td></tr>`; return; }
   tbody.innerHTML = ORDERS.map(o=>`
     <tr>
       <td><button class="mini-btn" data-toggle="${o.id}">${expandedOrderId===o.id?'−':'+'}</button></td>
       <td>${new Date(o.date).toLocaleDateString('ar-DZ')}</td>
       <td>${escapeHtml(o.customerName)}</td>
+      <td>${orderItemsSummary(o)}</td>
       <td>${escapeHtml(o.phone)}</td>
       <td>${escapeHtml(o.wilaya)}</td>
       <td>${money(o.total)}</td>
@@ -1506,7 +1515,7 @@ function renderAdminOrders(){
       </td>
       <td><button class="mini-btn" data-delorder="${o.id}"><svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg></button></td>
     </tr>
-    ${expandedOrderId===o.id?`<tr class="expand-row"><td colspan="8">
+    ${expandedOrderId===o.id?`<tr class="expand-row"><td colspan="9">
       <div class="order-items-list">
         <b style="color:var(--text);">العنوان:</b> ${escapeHtml(o.address)}<br>
         ${o.note?`<b style="color:var(--text);">ملاحظة:</b> ${escapeHtml(o.note)}<br>`:''}
