@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -505,7 +505,6 @@ tr:hover td{background:rgba(0,0,0,.012);}
       </div>
       <div class="hero-stats">
         <div class="stat"><b id="statProducts">0</b><span>منتج متوفر</span></div>
-        <div class="stat"><b id="statOrders">0</b><span>طلب تم تسليمه</span></div>
         <div class="stat"><b>58</b><span>ولاية نغطيها</span></div>
       </div>
     </div>
@@ -914,7 +913,6 @@ async function init(){
   applySettingsToUI();
   renderProducts();
   animateCount('statProducts', PRODUCTS.length);
-  animateCount('statOrders', ORDERS.filter(x=>x.status==='تم التوصيل').length);
 }
 function animateCount(id, target){
   const el=document.getElementById(id); let cur=0; const step=Math.max(1,Math.ceil(target/40));
