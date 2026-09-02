@@ -914,7 +914,7 @@ async function init(){
   applySettingsToUI();
   renderProducts();
   animateCount('statProducts', PRODUCTS.length);
-  animateCount('statOrders', ORDERS.filter(x=>x.status==='تم التوصيل').length + 120);
+  animateCount('statOrders', ORDERS.filter(x=>x.status==='تم التوصيل').length);
 }
 function animateCount(id, target){
   const el=document.getElementById(id); let cur=0; const step=Math.max(1,Math.ceil(target/40));
