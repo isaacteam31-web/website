@@ -144,7 +144,7 @@ nav.main-nav button.active, nav.main-nav button:hover{background:var(--surface-2
 .phone-brand-lockup{position:relative; z-index:6; text-align:center; margin-bottom:-10px;}
 .lockup-line{
   font-family:'Almarai',sans-serif; font-weight:800; font-size:33px; letter-spacing:.045em; color:var(--text);
-  display:flex; flex-direction:row; direction:ltr; unicode-bidi:isolate; align-items:center; justify-content:center; gap:8px;
+  display:flex; flex-direction:row !important; direction:ltr !important; unicode-bidi:isolate-override; align-items:center; justify-content:center; gap:8px;
   text-shadow:0 0 16px rgba(47,95,224,.25);
   animation:lockupGlow 3.2s ease-in-out infinite, titleEnter .9s cubic-bezier(.19,1,.22,1) both;
 }
@@ -516,7 +516,7 @@ tr:hover td{background:rgba(0,0,0,.012);}
       <div class="float-chip chip-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v6M12 17v6M4.2 4.2l4.2 4.2M15.5 15.5l4.3 4.3M1 12h6M17 12h6M4.2 19.8l4.2-4.2M15.5 8.5l4.3-4.3"></path></svg></div>
       <div class="float-chip chip-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
       <div class="phone-brand-lockup">
-        <div class="lockup-line">
+        <div class="lockup-line" dir="ltr">
           ishak
           <span class="lockup-emblem"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Apple"><path d="M16.7 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.1 9.1.8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.9-2.2.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.7-1-2.7-4.1zM14.5 6c.6-.8 1.1-2 1-3.1-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.9-1 3 .9.1 1.9-.5 2.6-1.3z"></path></svg></span>
           boutarfa
