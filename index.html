@@ -646,14 +646,168 @@ tr:hover td{background:rgba(0,0,0,.012);}
   </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 (function(){
 "use strict";
 
+/* ============ Firebase ============ */
+/*
+  انسخ Firebase config الحقيقي من:
+  Firebase Console > Project settings > Your apps > Web app
+
+  لا تضع Service Account أو private key هنا.
+*/
+const firebaseConfig = {
+  apiKey: "REPLACE_WITH_API_KEY",
+  authDomain: "isaacweb-52f17.firebaseapp.com",
+  projectId: "isaacweb-52f17",
+  storageBucket: "REPLACE_WITH_STORAGE_BUCKET",
+  messagingSenderId: "REPLACE_WITH_MESSAGING_SENDER_ID",
+  appId: "REPLACE_WITH_APP_ID"
+};
+
+const requiredFirebaseKeys = [
+  "apiKey",
+  "authDomain",
+  "projectId",
+  "storageBucket",
+  "messagingSenderId",
+  "appId"
+];
+
+const firebaseIsConfigured = requiredFirebaseKeys.every((key) => {
+  const value = String(firebaseConfig[key] || "");
+  return value && !value.startsWith("REPLACE_WITH_");
+});
+
+let firestore = null;
+
+if (firebaseIsConfigured) {
+  try {
+    firestore = getFirestore(initializeApp(firebaseConfig));
+    console.info("Firebase/Firestore جاهز.");
+  } catch (error) {
+    console.error("تعذر تشغيل Firebase:", error);
+  }
+} else {
+  console.warn(
+    "Firebase غير مهيأ: ضع Firebase config الحقيقي. سيستمر الموقع بالتخزين المحلي فقط."
+  );
+}
+
 /* ============ Storage helpers ============ */
 const K_PRODUCTS='mobione:products', K_ORDERS='mobione:orders', K_SETTINGS='mobione:settings';
-async function sGet(key){ try{ const r=await window.storage.get(key,true); return r?JSON.parse(r.value):null; }catch(e){ return null; } }
-async function sSet(key,val){ try{ await window.storage.set(key, JSON.stringify(val), true); return true; }catch(e){ console.error('storage set failed',e); return false; } }
+const FIRESTORE_COLLECTION = "mobione_data";
+
+function firestoreDocumentId(key){
+  return String(key).replace(/[^a-zA-Z0-9_-]/g, "_");
+}
+
+async function getFromFirestore(key){
+  if(!firestore) return undefined;
+
+  try{
+    const snapshot=await getDoc(
+      doc(firestore, FIRESTORE_COLLECTION, firestoreDocumentId(key))
+    );
+    if(!snapshot.exists()) return undefined;
+
+    const data=snapshot.data();
+    return Object.prototype.hasOwnProperty.call(data, 'value')
+      ? data.value
+      : undefined;
+  }catch(error){
+    console.error(`تعذر قراءة ${key} من Firestore:`, error);
+    return undefined;
+  }
+}
+
+async function getFromLocalStorage(key){
+  // التخزين الموجود في النسخة الأصلية.
+  try{
+    if(window.storage && typeof window.storage.get === 'function'){
+      const result=await window.storage.get(key,true);
+      if(result && result.value != null) return JSON.parse(result.value);
+    }
+  }catch(error){
+    console.warn('تعذر القراءة من window.storage:', error);
+  }
+
+  // احتياط إذا شُغّل الموقع خارج Replit.
+  try{
+    const raw=window.localStorage.getItem(key);
+    return raw == null ? null : JSON.parse(raw);
+  }catch(error){
+    console.warn('تعذر القراءة من localStorage:', error);
+    return null;
+  }
+}
+
+async function saveToFirestore(key,value){
+  if(!firestore) return false;
+
+  try{
+    await setDoc(
+      doc(firestore, FIRESTORE_COLLECTION, firestoreDocumentId(key)),
+      { value, updatedAt:Date.now() },
+      { merge:true }
+    );
+    return true;
+  }catch(error){
+    console.error(`تعذر الحفظ في Firestore (${key}):`, error);
+    return false;
+  }
+}
+
+async function saveToLocalStorage(key,value){
+  let saved=false;
+
+  try{
+    if(window.storage && typeof window.storage.set === 'function'){
+      await window.storage.set(key, JSON.stringify(value), true);
+      saved=true;
+    }
+  }catch(error){
+    console.warn('تعذر الحفظ في window.storage:', error);
+  }
+
+  try{
+    window.localStorage.setItem(key, JSON.stringify(value));
+    saved=true;
+  }catch(error){
+    console.warn('تعذر الحفظ في localStorage:', error);
+  }
+
+  return saved;
+}
+
+async function sGet(key){
+  const cloudValue=await getFromFirestore(key);
+  if(cloudValue !== undefined) return cloudValue;
+
+  const localValue=await getFromLocalStorage(key);
+
+  // نقل البيانات القديمة الموجودة محليًا إلى Firestore تلقائيًا.
+  if(firestore && localValue !== null && localValue !== undefined){
+    await saveToFirestore(key, localValue);
+  }
+
+  return localValue;
+}
+
+async function sSet(key,value){
+  const cloudSaved=await saveToFirestore(key,value);
+  const localSaved=await saveToLocalStorage(key,value);
+  return cloudSaved || localSaved;
+}
 
 /* ============ Categories & tags ============ */
 const CATEGORIES=['phones','accessories','macbook','chargers'];
