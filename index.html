@@ -144,14 +144,14 @@ nav.main-nav button.active, nav.main-nav button:hover{background:var(--surface-2
 .phone-brand-lockup{position:relative; z-index:6; text-align:center; margin-bottom:-10px;}
 .lockup-line{
   font-family:'Almarai',sans-serif; font-weight:800; font-size:33px; letter-spacing:.045em; color:var(--text);
-  display:flex; align-items:center; justify-content:center; gap:8px;
+  display:flex; flex-direction:row; direction:ltr; unicode-bidi:isolate; align-items:center; justify-content:center; gap:8px;
   text-shadow:0 0 16px rgba(47,95,224,.25);
   animation:lockupGlow 3.2s ease-in-out infinite, titleEnter .9s cubic-bezier(.19,1,.22,1) both;
 }
-.lockup-emblem{display:inline-flex; color:var(--accent-2); animation:emblemPulse 3.2s ease-in-out infinite;}
+.lockup-emblem{display:inline-flex; color:var(--accent-2); animation:emblemFloat 3.2s ease-in-out infinite; transform-origin:center;}
 .lockup-emblem svg{width:31px; height:31px;}
 @keyframes lockupGlow{0%,100%{text-shadow:0 0 12px rgba(47,95,224,.22);}50%{text-shadow:0 0 24px rgba(47,95,224,.4), 0 0 10px rgba(184,121,15,.3);}}
-@keyframes emblemPulse{0%,100%{transform:scale(1) rotate(0deg);}50%{transform:scale(1.18) rotate(10deg);}}
+@keyframes emblemFloat{0%,100%{transform:translateY(0) scale(1); filter:drop-shadow(0 0 0 rgba(184,121,15,0));}50%{transform:translateY(-4px) scale(1.08); filter:drop-shadow(0 5px 8px rgba(184,121,15,.32));}}
 .lockup-sub{font-family:'Almarai',sans-serif; font-weight:700; font-size:11.5px; letter-spacing:.55em; color:var(--accent); text-transform:uppercase; margin-top:4px;}
 
 .phone-mock{
