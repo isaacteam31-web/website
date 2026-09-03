@@ -1,4 +1,4 @@
-const CACHE_NAME = "ishakboutarfa-store-v1";
+const CACHE_NAME = "ishakboutarfa-store-v2";
 
 const APP_SHELL = [
   "./",
@@ -46,7 +46,6 @@ self.addEventListener("fetch", (event) => {
 
   const requestUrl = new URL(event.request.url);
 
-  // فتح الموقع من النسخة المخزنة إذا انقطع الإنترنت
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request)
@@ -65,7 +64,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // تخزين ملفات الموقع وملفات Firebase
   if (
     requestUrl.origin === self.location.origin ||
     requestUrl.origin === "https://www.gstatic.com" ||
