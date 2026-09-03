@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta name="google-site-verification" content="E7wg87fx4O_6yJCL1jjMO5zXLDw5DBia53aQ97_UB-8" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ishak boutarfa | Store</title>
@@ -650,6 +649,7 @@ tr:hover td{background:rgba(0,0,0,.012);}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getFirestore,
+  enableIndexedDbPersistence,
   doc,
   getDoc,
   setDoc
@@ -694,6 +694,9 @@ let firestore = null;
 if (firebaseIsConfigured) {
   try {
     firestore = getFirestore(initializeApp(firebaseConfig));
+    enableIndexedDbPersistence(firestore).catch((error) => {
+      console.warn("تعذر تفعيل تخزين Firebase دون اتصال:", error.code || error);
+    });
     console.info("Firebase/Firestore جاهز.");
   } catch (error) {
     console.error("تعذر تشغيل Firebase:", error);
@@ -702,6 +705,15 @@ if (firebaseIsConfigured) {
   console.warn(
     "Firebase غير مهيأ: ضع Firebase config الحقيقي. سيستمر الموقع بالتخزين المحلي فقط."
   );
+}
+
+// إبقاء واجهة الموقع متاحة عند انقطاع الإنترنت بعد أول زيارة.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch((error) => {
+      console.warn("تعذر تفعيل التخزين المؤقت للموقع:", error);
+    });
+  });
 }
 
 /* ============ Storage helpers ============ */
@@ -891,6 +903,14 @@ let productsSubTab='view';
 
 function isDiscounted(p){ return (p.tags||[]).includes(DISCOUNT_TAG) && p.salePrice!=null && p.salePrice>0 && p.salePrice<p.price; }
 function activePrice(p){ return isDiscounted(p) ? p.salePrice : p.price; }
+function productStock(p){
+  const stock=Number(p.stock);
+  return Number.isInteger(stock) && stock>=0 ? stock : null;
+}
+function stockLabel(p){
+  const stock=productStock(p);
+  return stock===null ? 'غير محددة' : stock===0 ? 'نفدت' : String(stock);
+}
 
 /* ============ Toast ============ */
 function toast(msg, type){
@@ -1160,6 +1180,17 @@ function renderCheckoutForm(){
   if(backBtn) backBtn.addEventListener('click', renderCartDrawer);
   document.getElementById('checkoutForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const unavailableItem=items.find(c=>{
+      const product=PRODUCTS.find(x=>x.id===c.id);
+      const stock=product ? productStock(product) : null;
+      return stock !== null && c.qty > stock;
+    });
+    if(unavailableItem){
+      const product=PRODUCTS.find(x=>x.id===unavailableItem.id);
+      toast(`الكمية المتوفرة من ${product?product.name:'هذا المنتج'} غير كافية`,'err');
+      return;
+    }
+
     const order={
       id:'ord_'+Date.now(),
       date:new Date().toISOString(),
@@ -1173,7 +1204,17 @@ function renderCheckoutForm(){
       status:'جديد'
     };
     ORDERS.unshift(order);
-    await sSet(K_ORDERS, ORDERS);
+    // خصم الكمية المطلوبة بعد تأكيد الطلب.
+    items.forEach(c=>{
+      const product=PRODUCTS.find(x=>x.id===c.id);
+      const stock=product ? productStock(product) : null;
+      if(product && stock !== null) product.stock=Math.max(0, stock-c.qty);
+    });
+    await Promise.all([
+      sSet(K_ORDERS, ORDERS),
+      sSet(K_PRODUCTS, PRODUCTS)
+    ]);
+    renderProducts();
     if(checkoutOverrideItems){ checkoutOverrideItems=null; } else { cart=[]; updateCartBadge(); }
     renderSuccessView();
   });
@@ -1304,16 +1345,17 @@ function renderProductsSubtab(){
     wrap.innerHTML=`
       <div class="admin-table-wrap">
         <table>
-          <thead><tr><th>المنتج</th><th>الفئة</th><th>السعر</th><th>الوسوم</th></tr></thead>
+          <thead><tr><th>المنتج</th><th>الفئة</th><th>السعر</th><th>الكمية</th><th>الوسوم</th></tr></thead>
           <tbody>
             ${PRODUCTS.map(p=>`
               <tr>
                 <td><div class="td-name-cell"><img class="prod-thumb" src="${(p.images&&p.images[0])||''}"><span>${escapeHtml(p.name)}</span></div></td>
                 <td>${catLabel(p.category)}</td>
                 <td>${isDiscounted(p)?`<span class="small-muted" style="text-decoration:line-through;">${money(p.price)}</span> ${money(p.salePrice)}`:money(p.price)}</td>
+                <td>${escapeHtml(stockLabel(p))}</td>
                 <td>${(p.tags||[]).join('، ')}</td>
               </tr>
-            `).join('') || `<tr><td colspan="4" style="text-align:center; color:var(--text-dim); padding:30px;">لا توجد منتجات، أضف أول منتج الآن</td></tr>`}
+            `).join('') || `<tr><td colspan="5" style="text-align:center; color:var(--text-dim); padding:30px;">لا توجد منتجات، أضف أول منتج الآن</td></tr>`}
           </tbody>
         </table>
       </div>`;
@@ -1369,7 +1411,7 @@ function renderProductsSubtab(){
 }
 function openProductForm(id){
   editingProductId=id;
-  const p = id ? PRODUCTS.find(x=>x.id===id) : {name:'', price:'', salePrice:null, category:'phones', description:'', tags:[], images:[]};
+  const p = id ? PRODUCTS.find(x=>x.id===id) : {name:'', price:'', stock:null, salePrice:null, category:'phones', description:'', tags:[], images:[]};
   tempImages = (p.images||[]).slice();
   const wrap=document.getElementById('productFormWrap');
   const hasDiscount=(p.tags||[]).includes(DISCOUNT_TAG);
@@ -1380,6 +1422,7 @@ function openProductForm(id){
         <div class="form-row"><label>اسم المنتج *</label><input id="fName" value="${escapeAttr(p.name)}"></div>
         <div class="form-row"><label>السعر (دج) *</label><input id="fPrice" type="number" min="0" value="${p.price}"></div>
       </div>
+      <div class="form-row" style="margin-bottom:16px;"><label>الكمية المتوفرة *</label><input id="fStock" type="number" min="0" step="1" value="${p.stock==null?'':p.stock}" placeholder="مثال: 10"></div>
       <div class="form-row" style="margin-bottom:16px;"><label>الفئة *</label>
         <select id="fCategory">
           ${CATEGORIES.map(c=>`<option value="${c}" ${p.category===c?'selected':''}>${CAT_LABELS[c]}</option>`).join('')}
@@ -1456,6 +1499,8 @@ function handleImageFiles(e){
 async function saveProduct(){
   const name=document.getElementById('fName').value.trim();
   const price=parseFloat(document.getElementById('fPrice').value);
+  const stockText=document.getElementById('fStock').value.trim();
+  const stock=Number(stockText);
   const category=document.getElementById('fCategory').value;
   const desc=document.getElementById('fDesc').value.trim();
   const tags=Array.from(document.querySelectorAll('#tagOptionsRow input[type=checkbox]:checked')).map(cb=>cb.value);
@@ -1466,11 +1511,12 @@ async function saveProduct(){
     if(isNaN(salePrice) || salePrice<=0 || salePrice>=price){ toast('يرجى إدخال سعر تخفيض صحيح أقل من السعر الأصلي','err'); return; }
   }
   if(!name || !desc || isNaN(price) || price<=0){ toast('يرجى تعبئة الاسم والسعر والوصف بشكل صحيح','err'); return; }
+  if(stockText==='' || !Number.isInteger(stock) || stock<0){ toast('يرجى إدخال كمية صحيحة للمنتج','err'); return; }
   if(editingProductId){
     const p=PRODUCTS.find(x=>x.id===editingProductId);
-    Object.assign(p,{name, price, salePrice, category, description:desc, tags, images:tempImages});
+    Object.assign(p,{name, price, stock, salePrice, category, description:desc, tags, images:tempImages});
   } else {
-    PRODUCTS.push({id:'p_'+Date.now(), name, price, salePrice, category, description:desc, tags, images:tempImages});
+    PRODUCTS.push({id:'p_'+Date.now(), name, price, stock, salePrice, category, description:desc, tags, images:tempImages});
   }
   await sSet(K_PRODUCTS, PRODUCTS);
   productsSubTab='view';
