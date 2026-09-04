@@ -2,7 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="format-detection" content="telephone=no">
 <title>ishak boutarfa | Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -649,14 +651,32 @@ tr:hover td{background:rgba(0,0,0,.012);}
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
+/*
+  بعض المتصفحات داخل التطبيقات مثل TikTok قد تمنع ملفًا خارجيًا.
+  إذا تعذر تحميل Firebase، يستمر الموقع بالتخزين المحلي بدل أن تصبح الصفحة فارغة.
+*/
+Promise.all([
+  import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"),
+  import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js")
+]).then(([firebaseAppModule, firebaseFirestoreModule]) => ({
+  initializeApp: firebaseAppModule.initializeApp,
+  getFirestore: firebaseFirestoreModule.getFirestore,
+  enableIndexedDbPersistence: firebaseFirestoreModule.enableIndexedDbPersistence,
+  doc: firebaseFirestoreModule.doc,
+  getDoc: firebaseFirestoreModule.getDoc,
+  setDoc: firebaseFirestoreModule.setDoc
+})).catch((error) => {
+  console.warn("تعذر تحميل Firebase؛ سيعمل الموقع بالتخزين المحلي:", error);
+  return {};
+}).then((firebaseModules) => {
+const {
+  initializeApp,
   getFirestore,
   enableIndexedDbPersistence,
   doc,
   getDoc,
   setDoc
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+} = firebaseModules;
 
 (function(){
 "use strict";
@@ -694,7 +714,7 @@ const firebaseIsConfigured = requiredFirebaseKeys.every((key) => {
 
 let firestore = null;
 
-if (firebaseIsConfigured) {
+if (firebaseIsConfigured && initializeApp && getFirestore) {
   try {
     firestore = getFirestore(initializeApp(firebaseConfig));
     enableIndexedDbPersistence(firestore).catch((error) => {
@@ -728,12 +748,16 @@ function firestoreDocumentId(key){
 }
 
 async function getFromFirestore(key){
-  if(!firestore) return undefined;
+  if(!firestore || !getDoc || !doc) return undefined;
 
   try{
-    const snapshot=await getDoc(
+    const readPromise=getDoc(
       doc(firestore, FIRESTORE_COLLECTION, firestoreDocumentId(key))
     );
+    const timeoutPromise=new Promise((_, reject)=>
+      setTimeout(()=>reject(new Error('انتهت مهلة الاتصال بـ Firestore')), 6000)
+    );
+    const snapshot=await Promise.race([readPromise, timeoutPromise]);
     if(!snapshot.exists()) return undefined;
 
     const data=snapshot.data();
@@ -768,7 +792,7 @@ async function getFromLocalStorage(key){
 }
 
 async function saveToFirestore(key,value){
-  if(!firestore) return false;
+  if(!firestore || !setDoc || !doc) return false;
 
   try{
     await setDoc(
@@ -1657,6 +1681,7 @@ function renderAdminSettings(){
 /* ============ Go ============ */
 init();
 })();
+});
 </script>
 </body>
 </html>
