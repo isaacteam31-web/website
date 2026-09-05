@@ -480,6 +480,7 @@ tr:hover td{background:rgba(0,0,0,.012);}
     <nav class="main-nav">
       <button data-cat="all" class="nav-cat active">الرئيسية</button>
       <button data-cat="phones" class="nav-cat">الهواتف</button>
+      <button data-cat="tablets" class="nav-cat">التابلت</button>
       <button data-cat="accessories" class="nav-cat">الإكسسوارات</button>
       <button data-cat="macbook" class="nav-cat">ماكبوك</button>
       <button data-cat="chargers" class="nav-cat">الشواحن</button>
@@ -550,6 +551,7 @@ tr:hover td{background:rgba(0,0,0,.012);}
       <div class="tabs">
         <button data-cat="all" class="tab-btn active">الكل</button>
         <button data-cat="phones" class="tab-btn">الهواتف</button>
+        <button data-cat="tablets" class="tab-btn">التابلت</button>
         <button data-cat="accessories" class="tab-btn">الإكسسوارات</button>
         <button data-cat="macbook" class="tab-btn">ماكبوك</button>
         <button data-cat="chargers" class="tab-btn">الشواحن</button>
@@ -850,8 +852,8 @@ async function sSet(key,value){
 }
 
 /* ============ Categories & tags ============ */
-const CATEGORIES=['phones','accessories','macbook','chargers'];
-const CAT_LABELS={phones:'هاتف', accessories:'إكسسوار', macbook:'ماكبوك', chargers:'شاحن'};
+const CATEGORIES=['phones','tablets','accessories','macbook','chargers'];
+const CAT_LABELS={phones:'هاتف', tablets:'تابلت', accessories:'إكسسوار', macbook:'ماكبوك', chargers:'شاحن'};
 const TAG_OPTIONS=['تخفيض','جديد','الأكثر مبيعًا','يشحن بسرعة'];
 const DISCOUNT_TAG='تخفيض';
 
